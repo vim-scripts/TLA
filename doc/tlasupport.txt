@@ -1,0 +1,74 @@
+﻿*tlasupport.txt*      For Vim version 7.3.  Last change: 2012 Jul 20
+
+
+		  VIM REFERENCE MANUAL    by xingchao 
+GVim plugins for TLA+ and PlusCal 
+First time write plugins for Gvim ,thanks to authors of plugins
+
+
+1. Using GUI                        	|tlasupport-usage-gvim|
+2. hotkeys	                    	|tlasupport-hotkeys|
+3. indent	                    	|tlasupport-indent|
+4. TLA dictionary			|tlasupport-dictionary|
+5. TLA User_Configuration			|tlasupport-user-configuration|
+
+==============================================================================
+1. Using GUI		        		*tlasupport-usage-gvim*
+TLA+ PlusCal highlight
+
+==============================================================================
+2. hotkeys					*tlasupport-hotkeys*
+ <leader>gi IF-THEN-ELSE    
+ <leader>ga CASE 
+ <leader>go CASE-OTHER 
+ <leader>glc LET IN /\.../\ 
+ <leader>gld LET IN \/...\/ 
+
+ <leader>cc  comments one line  
+ <leader>cu  cancelthe comments of one line  
+ <leader>qp comments paragraph
+ <leader>qe comments in the end of one line
+
+
+ <F7>   pcal.trans 
+ <F8>   pcal.trans with  Arguments()
+ <F9>   tla2sany.SANY
+ <F10>  tla2sany.SANY with  Arguments(-s ,-d)
+ <F11>  tlc2.TLC
+ <F12>  tlc2.TLC with Arguments(-deadlock -simulate -depth -seed -aril -coverage -recover -cleanup -difftrace -terse -workers -config -nowarning )
+ \sf    add frame 
+ ---- esc  --------------------------------------------------------------
+ ==== esc: ===============================================================
+ mn (Module Name)esc: add file name 
+
+==============================================================================
+3. indent                           *tlasupport-indent*
+ this need to improved
+==============================================================================
+4. TLA dictionary                           *tlasupport-dictionary*
+
+windows
+ $Vim\vimfiles\tla-support\templates
+ $Vim\vimfiles\tla-support\wordlists\tla.list
+linux
+ $Vim/.vim/tla-support/templates
+ $Vim/.vim/tla-support/wordlists/tla/list
+
+help:
+windows
+ $Vim\vimfiles\doc\tlasupport.txt
+linux
+ $Vim/.vim/doc/tlasupport.txt
+
+
+
+5. TLA  User_Configuration  *tlasupport-user-configuration*
+you may edit  TLA_PATH in syntax\tla.vim with your path which tla installed
+
+
+
+
+
+
+
+

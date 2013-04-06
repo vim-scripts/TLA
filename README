@@ -1,0 +1,23 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=4509
+
+ this is a plugin for TLA+ language,although TLA+ toolbox already exists,but it is fun to create this .for more information about this lauguage ,access www.lamport.org
+
+the hotkeys as follows:
+ <leader>gi IF-THEN-ELSE    
+ <leader>ga CASE 
+ <leader>go CASE-OTHER 
+ <leader>glc LET IN /\.../\ 
+ <leader>gld LET IN \/...\/ 
+
+ <leader>cc  comments one line  
+ <leader>cu  cancelthe comments of one line  
+ <leader>qp comments paragraph
+ <leader>qe comments in the end of one line
+
+
+ <F7>   pcal.trans 
+ <F8>   pcal.trans with  Arguments()
+ <F9>   tla2sany.SANY
+ <F10>  tla2sany.SANY with  Arguments(-s ,-d)
+ <F11>  tlc2.TLC
+ <F12>  tlc2.TLC with Arguments(-deadlock -simulate -depth -seed -aril -coverage -recover -cleanup -difftrace -terse -workers -config -nowarning )
