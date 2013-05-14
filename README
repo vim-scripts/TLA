@@ -14,7 +14,8 @@ the hotkeys as follows:
  <leader>qp comments paragraph
  <leader>qe comments in the end of one line
 
-
+ <F5>  TLA_Tla2Tex()
+ <F6>  TLA_Tla2TexArguments()(-ptSize -textwidth -textheight)
  <F7>   pcal.trans 
  <F8>   pcal.trans with  Arguments()
  <F9>   tla2sany.SANY

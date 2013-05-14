@@ -570,15 +570,11 @@ function! TLA_InitMenus ()
     exe "imenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ pcal<Tab>\F8      <C-C>:call TLA_PcalTransArguments()<CR>'
     exe "amenu  <silent>  ".s:Run.'.-SEP3-                          :'
 
-  if s:MSWIN 
-    let s:non = 0
-  else
-    exe "amenu  <silent>  ".s:Run.'.&pdflatex<Tab>\\tp                                    :call TLA_Tla2Tex()<CR>'
-    exe "imenu  <silent>  ".s:Run.'.&pdflatex<Tab>\\tp                               <C-C>:call TLA_Tla2Tex()<CR>'
-    exe "amenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ pdflatex<Tab>\\tpa           :call TLA_Tla2TexArguments()<CR>'
-    exe "imenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ pdflatex<Tab>\\tpa      <C-C>:call TLA_Tla2TexArguments()<CR>'
+    exe "amenu  <silent>  ".s:Run.'.&pdflatex<Tab>\F5                               <C-C>:call TLA_Tla2Tex()<CR>'
+    exe "imenu  <silent>  ".s:Run.'.&pdflatex<Tab>\F5                               <C-C>:call TLA_Tla2Tex()<CR>'
+    exe "amenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ pdflatex<Tab>\F6           :call TLA_Tla2TexArguments()<CR>'
+    exe "imenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ pdflatex<Tab>\F6      <C-C>:call TLA_Tla2TexArguments()<CR>'
     exe "amenu  <silent>  ".s:Run.'.-SEP4-                          :'
-  endif
 
 
 
@@ -636,37 +632,6 @@ vnoremap  <buffer>  <silent>  <Leader>ga          :call TLA_InsertTemplate("stat
 vnoremap  <buffer>  <silent>  <Leader>go           :call TLA_InsertTemplate("statements.CASE-OTHER")<CR>
 vnoremap  <buffer>  <silent>  <Leader>glc          :call TLA_InsertTemplate("statements.LET-IN-CONJUNCTION")<CR>
 vnoremap  <buffer>  <silent>  <Leader>gld           :call TLA_InsertTemplate("statements.LET-IN-DISJUNCTION")<CR>
-
-"
-" ---------- run menu ----------------------------------------------------
-"
-
-" noremap  <buffer>  <silent>  <LocalLeader>ts            :call TLA_Tla2sany()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tsa           :call TLA_Tla2sanyArguments()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tlc           :call TLA_Tlc2()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tlca          :call TLA_Tlc2Arguments()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tc            :call TLA_PcalTrans()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tca           :call TLA_PcalTransArguments()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tp            :call TLA_Tla2Tex()<CR>
-" noremap  <buffer>  <silent>  <LocalLeader>tpa           :call TLA_Tla2TexArguments()<CR>
-
-" inoremap  <buffer>  <silent>  <LocalLeader>ts            :call TLA_Tla2sany()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tsa           :call TLA_Tla2sanyArguments()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tlc           :call TLA_Tlc2()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tlca          :call TLA_Tlc2Arguments()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tc            :call TLA_PcalTrans()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tca           :call TLA_PcalTransArguments()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tp            :call TLA_Tla2Tex()<CR>
-" inoremap  <buffer>  <silent>  <LocalLeader>tpa           :call TLA_Tla2TexArguments()<CR>
-
-" vnoremap  <buffer>  <silent>  <LocalLeader>ts            :call TLA_Tla2sany()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tsa           :call TLA_Tla2sanyArguments()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tlc           :call TLA_Tlc2()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tlca          :call TLA_Tlc2Arguments()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tc            :call TLA_PcalTrans()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tca           :call TLA_PcalTransArguments()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tp            :call TLA_Tla2Tex()<CR>
-" vnoremap  <buffer>  <silent>  <LocalLeader>tpa           :call TLA_Tla2TexArguments()<CR>
 
 "
 " ---------- snippets  menu ----------------------------------------------------
@@ -852,7 +817,8 @@ function! TLA_Tla2Tex()
   " " !java tla2tex.TLA -latexCommand pdflatex -ptSize 12 % 
   exec	":!java -cp ".g:TLA_PATH." tla2tex.TLA -latexCommand pdflatex ".s:TLA_Tla2TexCmdLineArgs." %"
   if s:MSWIN
-    silent !AcroRd32  %:r.pdf &
+     " !cd %:p:h 
+   !AcroRd32  %:p:r.pdf 
   else
     silent !evince %:r.pdf &
   endif
@@ -865,12 +831,6 @@ function! TLA_Tla2TexArguments ()
   call TLA_Tla2Tex()
 endfunction    " ----------  end of function TLA_Tla2sanyArguments ----------
 
-if s:MSWIN 
-  let s:non = 0
-else 
-  " map <F6> :call TLA_Tla2Tex()<CR>
-  " map <F7> :call TLA_Tla2TexArguments()<CR>
-endif
 
 
 "------------------------------------------------------------------------------
@@ -1455,67 +1415,69 @@ syn keyword tlaFunc Nat Real Int Infinity Head SelectSeq SubSeq Append Len Seq T
 syn keyword tlaLabel	EXTENDS THEOREM ASSUME  WITH INSTANCE  
 syn keyword tlaConstant MODULE	
 syn keyword tlaType  CONSTANTS CONSTANT  VARIABLES VARIABLE  BOOLEAN STRING  
+
+syn keyword tla2Keyword  ACTION HAVE PICK SUFFICES ASSUMPTION HIDE PROOF TAKE AXIOM LAMBDA PROPOSITION TEMPORAL BY LEMMA PROVE USE COROLLARY NEW QED WITNESS DEF OBVIOUS RECURSIVE DEFINE OMITTED STATE DEFS
+
 syntax region tlaString  start=/"/ skip=/\\"/ end=/"/
 syntax match tlaComment /(\*\(.\)*\*)/
 " syntax match tlaComment /(\*\(\_.\)*\*)/
 " syntax match tlaComment /(\*\(.\)*\*)/
 syntax match tlaSlashComment /\\\*.*/
 syntax match tlaTuple /{[^}]*}/
-" syntax match tlaSlashOperator /[\\circ|\\div|\\oplus|\\ominus|\\otimes|\\oslash|\\odot|\\geq|\\leq|\\sqcap|\\prec|\\succ|\\preceq|\\succeq|\\sqcup|\\ll|\\gg|\\subset|\\supset|\\subseteq|\\supseteq|\\star|\\bullet|\\sim|\\simeq|\\approx|\\cong|\\asymp|\\doteq|\\propto|\\wr|\\uplus|\\bigcirc|\\lnot|\\neg|\\equiv|\\land|\\lor|\\in|\\notin|\\cdot|\\cap|\\intersect|\\cup|\\union|\\E|\\EE|\\X|\\A|\\AA|\\sqsubset|\\sqsupset|\\sqsubseteq|\\sqsupseteq]/ 
-syntax match tlaSlashOperator0 /\\circ/ 
-syntax match tlaSlashOperator1 /\\div/ 
-syntax match tlaSlashOperator2 /\\oplus/ 
-syntax match tlaSlashOperator3 /\\ominus/ 
-syntax match tlaSlashOperator4 /\\otimes/ 
-syntax match tlaSlashOperator5 /\\oslash/ 
-syntax match tlaSlashOperator6 /\\odot/ 
-syntax match tlaSlashOperator7 /\\geq/ 
-syntax match tlaSlashOperator8 /\\leq/ 
-syntax match tlaSlashOperator9 /\\sqcap/ 
-syntax match tlaSlashOperator10 /\\prec/ 
-syntax match tlaSlashOperator11 /\\succ/ 
-syntax match tlaSlashOperator12 /\\preceq/ 
-syntax match tlaSlashOperator13 /\\succeq/ 
-syntax match tlaSlashOperator14 /\\sqcup/ 
-syntax match tlaSlashOperator15 /\\ll/ 
-syntax match tlaSlashOperator16 /\\gg/ 
-syntax match tlaSlashOperator17 /\\subset/ 
-syntax match tlaSlashOperator18 /\\supset/ 
-syntax match tlaSlashOperator19 /\\subseteq/ 
-syntax match tlaSlashOperator20 /\\supseteq/ 
-syntax match tlaSlashOperator21 /\\star/ 
-syntax match tlaSlashOperator22 /\\bullet/ 
-syntax match tlaSlashOperator23 /\\sim/ 
-syntax match tlaSlashOperator24 /\\simeq/ 
-syntax match tlaSlashOperator25 /\\approx/ 
-syntax match tlaSlashOperator26 /\\cong/ 
-syntax match tlaSlashOperator27 /\\asymp/ 
-syntax match tlaSlashOperator28 /\\doteq/ 
-syntax match tlaSlashOperator29 /\\propto/ 
-syntax match tlaSlashOperator30 /\\wr/ 
-syntax match tlaSlashOperator31 /\\uplus/ 
-syntax match tlaSlashOperator32 /\\bigcirc/ 
-syntax match tlaSlashOperator33 /\\lnot/ 
-syntax match tlaSlashOperator34 /\\neg/ 
-syntax match tlaSlashOperator35 /\\equiv/ 
-syntax match tlaSlashOperator36 /\\land/ 
-syntax match tlaSlashOperator37 /\\lor/ 
-syntax match tlaSlashOperator38 /\\in/ 
-syntax match tlaSlashOperator39 /\\notin/ 
-syntax match tlaSlashOperator40 /\\cdot/ 
-syntax match tlaSlashOperator41 /\\cap/ 
-syntax match tlaSlashOperator42 /\\intersect/ 
-syntax match tlaSlashOperator43 /\\cup/ 
-syntax match tlaSlashOperator44 /\\union/ 
-syntax match tlaSlashOperator45 /\\E/ 
-syntax match tlaSlashOperator46 /\\EE/ 
-syntax match tlaSlashOperator47 /\\X/ 
-syntax match tlaSlashOperator48 /\\A/ 
-syntax match tlaSlashOperator49 /\\AA/ 
-syntax match tlaSlashOperator50 /\\sqsubset/ 
-syntax match tlaSlashOperator51 /\\sqsupset/ 
-syntax match tlaSlashOperator52 /\\sqsubseteq/ 
-syntax match tlaSlashOperator53 /\\sqsupseteq/ 
+syntax match tlaSlashOperator /\\circ/ 
+syntax match tlaSlashOperator /\\div/ 
+syntax match tlaSlashOperator /\\oplus/ 
+syntax match tlaSlashOperator /\\ominus/ 
+syntax match tlaSlashOperator /\\otimes/ 
+syntax match tlaSlashOperator /\\oslash/ 
+syntax match tlaSlashOperator /\\odot/ 
+syntax match tlaSlashOperator /\\geq/ 
+syntax match tlaSlashOperator /\\leq/ 
+syntax match tlaSlashOperator /\\sqcap/ 
+syntax match tlaSlashOperator /\\prec/ 
+syntax match tlaSlashOperator /\\succ/ 
+syntax match tlaSlashOperator /\\preceq/ 
+syntax match tlaSlashOperator /\\succeq/ 
+syntax match tlaSlashOperator /\\sqcup/ 
+syntax match tlaSlashOperator /\\ll/ 
+syntax match tlaSlashOperator /\\gg/ 
+syntax match tlaSlashOperator /\\subset/ 
+syntax match tlaSlashOperator /\\supset/ 
+syntax match tlaSlashOperator /\\subseteq/ 
+syntax match tlaSlashOperator /\\supseteq/ 
+syntax match tlaSlashOperator /\\star/ 
+syntax match tlaSlashOperator /\\bullet/ 
+syntax match tlaSlashOperator /\\sim/ 
+syntax match tlaSlashOperator /\\simeq/ 
+syntax match tlaSlashOperator /\\approx/ 
+syntax match tlaSlashOperator /\\cong/ 
+syntax match tlaSlashOperator /\\asymp/ 
+syntax match tlaSlashOperator /\\doteq/ 
+syntax match tlaSlashOperator /\\propto/ 
+syntax match tlaSlashOperator /\\wr/ 
+syntax match tlaSlashOperator /\\uplus/ 
+syntax match tlaSlashOperator /\\bigcirc/ 
+syntax match tlaSlashOperator /\\lnot/ 
+syntax match tlaSlashOperator /\\neg/ 
+syntax match tlaSlashOperator /\\equiv/ 
+syntax match tlaSlashOperator /\\land/ 
+syntax match tlaSlashOperator /\\lor/ 
+syntax match tlaSlashOperator /\\in/ 
+syntax match tlaSlashOperator /\\notin/ 
+syntax match tlaSlashOperator /\\cdot/ 
+syntax match tlaSlashOperator /\\cap/ 
+syntax match tlaSlashOperator /\\intersect/ 
+syntax match tlaSlashOperator /\\cup/ 
+syntax match tlaSlashOperator /\\union/ 
+syntax match tlaSlashOperator /\\E/ 
+syntax match tlaSlashOperator /\\EE/ 
+syntax match tlaSlashOperator /\\X/ 
+syntax match tlaSlashOperator /\\A/ 
+syntax match tlaSlashOperator /\\AA/ 
+syntax match tlaSlashOperator /\\sqsubset/ 
+syntax match tlaSlashOperator /\\sqsupset/ 
+syntax match tlaSlashOperator /\\sqsubseteq/ 
+syntax match tlaSlashOperator /\\sqsupseteq/ 
 
 
 " syn keyword tlaOperator            -------- ========    |
@@ -1527,53 +1489,46 @@ syntax match tlaConjunction /\/\\/
 syntax match tlaEqual /=/ 
 syntax match tlaEnd /=\{4,\}/ 
 
-" syntax match tlaMultiOperator /([+|-|X|/|.])/ 
-syn match       tlaMultiOperator0  display "++"
-syn match       tlaMultiOperator2  display "--"
-syn match       tlaMultiOperator4  display ">="
-syn match       tlaMultiOperator5  display "<="
-syn match       tlaMultiOperator6  display "=<"
-syn match       tlaMultiOperator7  display "//"
-syn match       tlaMultiOperator8  display "^^"
-syn match       tlaMultiOperator9  display "<<"
-syn match       tlaMultiOperator10  display ">>"
-syn match       tlaMultiOperator11  display "<:"
-syn match       tlaMultiOperator12  display ":>"
-syn match       tlaMultiOperator13  display "%%"
-syn match       tlaMultiOperator14  display "##"
-syn match       tlaMultiOperator15  display "$$"
-syn match       tlaMultiOperator16  display ":="
-syn match       tlaMultiOperator17  display "::="
-syn match       tlaMultiOperator18  display "??"
-syn match       tlaMultiOperator19  display "!!"
-syn match       tlaMultiOperator20  display "@@"
-" syn match       tlaMultiOperator21  display "^+"
-" syn match       tlaMultiOperator22  display "^*"
-" syn match       tlaMultiOperator23  display "^#"
-syn match       tlaMultiOperator24   /\[\]/
-syn match       tlaMultiOperator25  display "<>"
-syn match       tlaMultiOperator26  display "=>"
-syn match       tlaMultiOperator27  display "-+->"
-syn match       tlaMultiOperator28  display "<=>"
-syn match       tlaMultiOperator29  display "~>"
-" " syn match       tlaMultiOperator  display "/\\"
-" " syn match       tlaMultiOperator30  display "\/"
-syn match       tlaMultiOperator31  display "/="
-syn match       tlaMultiOperator32   /\[\w*\]_\(\w\)*/
-syn match       tlaMultiOperator33   />>_\(\w\)*/
-syn match       tlaMultiOperator34   /\s==\s/
-syn match       tlaMultiOperator35  display "<-"
-syn match       tlaMultiOperator36  display "&&"
-" " || |- -| =|  |=  |->
-syn match       tlaMultiOperator37  display "|"
-syn match       tlaMultiOperator38  display "||"
-syn match       tlaMultiOperator39  display "|-"
-syn match       tlaMultiOperator40  display "-|"
-syn match       tlaMultiOperator41  display "=|"
-syn match       tlaMultiOperator42  display "|="
-syn match       tlaMultiOperator43  display "|->"
-syn match       tlaMultiOperator44  /WF_\(<\)\{0,2\}.*\(>\)\{0,2\}(\(.\)*)/
-syn match       tlaMultiOperator45  /SF_\(<\)\{0,2\}.*\(>\)\{0,2\}(\(.\)*)/
+syn match       tlaMultiOperator  display "++"
+syn match       tlaMultiOperator  display "--"
+syn match       tlaMultiOperator  display ">="
+syn match       tlaMultiOperator  display "<="
+syn match       tlaMultiOperator  display "=<"
+syn match       tlaMultiOperator  display "//"
+syn match       tlaMultiOperator  display "^^"
+syn match       tlaMultiOperator  display "<<"
+syn match       tlaMultiOperator  display ">>"
+syn match       tlaMultiOperator  display "<:"
+syn match       tlaMultiOperator  display ":>"
+syn match       tlaMultiOperator  display "%%"
+syn match       tlaMultiOperator  display "##"
+syn match       tlaMultiOperator  display "$$"
+syn match       tlaMultiOperator  display ":="
+syn match       tlaMultiOperator  display "::="
+syn match       tlaMultiOperator  display "??"
+syn match       tlaMultiOperator  display "!!"
+syn match       tlaMultiOperator  display "@@"
+syn match       tlaMultiOperator   /\[\]/
+syn match       tlaMultiOperator  display "<>"
+syn match       tlaMultiOperator  display "=>"
+syn match       tlaMultiOperator  display "-+->"
+syn match       tlaMultiOperator  display "<=>"
+syn match       tlaMultiOperator  display "~>"
+syn match       tlaMultiOperator  display "/="
+syn match       tlaMultiOperator   /\[\w*\]_\(\w\)*/
+syn match       tlaMultiOperator   />>_\(\w\)*/
+syn match       tlaMultiOperator   /\s==\s/
+syn match       tlaMultiOperator  display "<-"
+syn match       tlaMultiOperator  display "&&"
+syn match       tlaMultiOperator  display "|"
+syn match       tlaMultiOperator  display "||"
+syn match       tlaMultiOperator  display "|-"
+syn match       tlaMultiOperator  display "-|"
+syn match       tlaMultiOperator  display "=|"
+syn match       tlaMultiOperator  display "|="
+syn match       tlaMultiOperator  display "|->"
+syn match       tlaMultiOperator  /WF_\(<\)\{0,2\}.*\(>\)\{0,2\}(\(.\)*)/
+syn match       tlaMultiOperator  /SF_\(<\)\{0,2\}.*\(>\)\{0,2\}(\(.\)*)/
 "-------------------------------- for TLA+ end--------------------------------
 "
 "-------------------------------- for PlusCal--------------------------------
@@ -1617,107 +1572,9 @@ if version >= 508
   hi tlaExtraOperator            guifg=#640404
   hi tlaEnd            guifg=#D1D1D1
   HiLink tlaMultiOperator			Operator
-  HiLink tlaSlashOperator0			Operator
-  HiLink tlaSlashOperator1			Operator
-  HiLink tlaSlashOperator2			Operator
-  HiLink tlaSlashOperator3			Operator
-  HiLink tlaSlashOperator4			Operator
-  HiLink tlaSlashOperator5			Operator
-  HiLink tlaSlashOperator6			Operator
-  HiLink tlaSlashOperator7			Operator
-  HiLink tlaSlashOperator8			Operator
-  HiLink tlaSlashOperator9			Operator
-  HiLink tlaSlashOperator10			Operator
-  HiLink tlaSlashOperator11			Operator
-  HiLink tlaSlashOperator12			Operator
-  HiLink tlaSlashOperator13			Operator
-  HiLink tlaSlashOperator14			Operator
-  HiLink tlaSlashOperator15			Operator
-  HiLink tlaSlashOperator16			Operator
-  HiLink tlaSlashOperator17			Operator
-  HiLink tlaSlashOperator18			Operator
-  HiLink tlaSlashOperator19			Operator
-  HiLink tlaSlashOperator20			Operator
-  HiLink tlaSlashOperator21			Operator
-  HiLink tlaSlashOperator22			Operator
-  HiLink tlaSlashOperator23			Operator
-  HiLink tlaSlashOperator24			Operator
-  HiLink tlaSlashOperator25			Operator
-  HiLink tlaSlashOperator26			Operator
-  HiLink tlaSlashOperator27			Operator
-  HiLink tlaSlashOperator28			Operator
-  HiLink tlaSlashOperator29			Operator
-  HiLink tlaSlashOperator30			Operator
-  HiLink tlaSlashOperator31			Operator
-  HiLink tlaSlashOperator32			Operator
-  HiLink tlaSlashOperator33			Operator
-  HiLink tlaSlashOperator34			Operator
-  HiLink tlaSlashOperator35			Operator
-  HiLink tlaSlashOperator36			Operator
-  HiLink tlaSlashOperator37			Operator
-  HiLink tlaSlashOperator38			Operator
-  HiLink tlaSlashOperator39			Operator
-  HiLink tlaSlashOperator40			Operator
-  HiLink tlaSlashOperator41			Operator
-  HiLink tlaSlashOperator42			Operator
-  HiLink tlaSlashOperator43			Operator
-  HiLink tlaSlashOperator44			Operator
-  HiLink tlaSlashOperator45			Operator
-  HiLink tlaSlashOperator46			Operator
-  HiLink tlaSlashOperator47			Operator
-  HiLink tlaSlashOperator48			Operator
-  HiLink tlaSlashOperator49			Operator
-  HiLink tlaSlashOperator50			Operator
-  HiLink tlaSlashOperator51			Operator
-  HiLink tlaSlashOperator52			Operator
-  HiLink tlaSlashOperator53			Operator
+  HiLink tla2Keyword        Keyword
 
-  HiLink tlaMultiOperator0			Operator
-  HiLink tlaMultiOperator1			Operator
-  HiLink tlaMultiOperator2			Operator
-  HiLink tlaMultiOperator3			Operator
-  HiLink tlaMultiOperator4			Operator
-  HiLink tlaMultiOperator5			Operator
-  HiLink tlaMultiOperator6			Operator
-  HiLink tlaMultiOperator7			Operator
-  HiLink tlaMultiOperator8			Operator
-  HiLink tlaMultiOperator9			Operator
-  HiLink tlaMultiOperator10			Operator
-  HiLink tlaMultiOperator11			Operator
-  HiLink tlaMultiOperator12			Operator
-  HiLink tlaMultiOperator13			Operator
-  HiLink tlaMultiOperator14			Operator
-  HiLink tlaMultiOperator15			Operator
-  HiLink tlaMultiOperator16			Operator
-  HiLink tlaMultiOperator17			Operator
-  HiLink tlaMultiOperator18			Operator
-  HiLink tlaMultiOperator19			Operator
-  HiLink tlaMultiOperator20			Operator
-  HiLink tlaMultiOperator21			Operator
-  HiLink tlaMultiOperator22			Operator
-  HiLink tlaMultiOperator23			Operator
-  HiLink tlaMultiOperator24			Operator
-  HiLink tlaMultiOperator25			Operator
-  HiLink tlaMultiOperator26			Operator
-  HiLink tlaMultiOperator27			Operator
-  HiLink tlaMultiOperator28			Operator
-  HiLink tlaMultiOperator29			Operator
-  HiLink tlaMultiOperator30			Operator
-  HiLink tlaMultiOperator31			Operator
-  HiLink tlaMultiOperator32			Operator
-  HiLink tlaMultiOperator33			Operator
-  hi def tlaMultiOperator34			cterm=bold ctermfg=Cyan ctermbg=darkgrey guifg=DarkBlue gui=Bold,Italic
-  HiLink tlaMultiOperator35			Operator
-  HiLink tlaMultiOperator36			Operator
-  HiLink tlaMultiOperator37			Operator
-  HiLink tlaMultiOperator38			Operator
-  HiLink tlaMultiOperator39			Operator
-  HiLink tlaMultiOperator40			Operator
-  HiLink tlaMultiOperator41			Operator
-  HiLink tlaMultiOperator42			Operator
-  HiLink tlaMultiOperator43			Operator
-  HiLink tlaMultiOperator44			Operato
-  HiLink tlaMultiOperator45			Operator
+
 
   " HiLink tlaPlusCalCSyntaxKeyword  Operator
   hi def tlaPlusCalPascaSyntaxKeyword term=bold ctermfg=DarkRed cterm=bold gui=bold guifg=Brown
@@ -1760,6 +1617,8 @@ iab ==== <c-r>=("===============================================================
 iab mn <c-r>= expand("%:r")
 
 " map <F8> :call TLA_GoDefination()<CR>
+map <F5> :call TLA_Tla2Tex()<CR>
+map <F6> :call TLA_Tla2TexArguments()<CR>
 map <F7> :call TLA_PcalTrans()<CR>
 map <F8> :call TLA_PcalTransArguments()<CR>
 map <F9> :call TLA_Tla2sany()<CR>

@@ -29,7 +29,8 @@ TLA+ PlusCal highlight
  <leader>qp comments paragraph
  <leader>qe comments in the end of one line
 
-
+ <F5>  TLA_Tla2Tex()
+ <F6>  TLA_Tla2TexArguments()(-ptSize -textwidth -textheight)
  <F7>   pcal.trans 
  <F8>   pcal.trans with  Arguments()
  <F9>   tla2sany.SANY
@@ -43,7 +44,7 @@ TLA+ PlusCal highlight
 
 ==============================================================================
 3. indent                           *tlasupport-indent*
- this need to improved
+ this need to be improved
 ==============================================================================
 4. TLA dictionary                           *tlasupport-dictionary*
 
@@ -63,7 +64,9 @@ linux
 
 
 5. TLA  User_Configuration  *tlasupport-user-configuration*
-you may edit  TLA_PATH in syntax\tla.vim with your path which tla installed
+ 1. edit  TLA_PATH in syntax\tla.vim with your path which tla installed
+ 2. install latex (miktex for example) and add the path of AcroRd32 to your PATH
+
 
 
 
